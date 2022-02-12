@@ -1,4 +1,4 @@
-<p align="center"><img src="https://svgshare.com/i/e9E.svg" width="400px"></p>
+<p align="center"><img src="https://svgshare.com/i/eAe.svg" width="400px" alt="logo"></p>
 
 ## Описание
 

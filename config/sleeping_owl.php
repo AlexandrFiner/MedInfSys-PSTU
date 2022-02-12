@@ -48,7 +48,7 @@ return [
     |
     */
 
-    'logo' => '<img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Gosuslugi.png" style="filter: contrast(0%)">',
+    'logo' => '<img src="https://svgshare.com/i/eAe.svg" alt="logo">',
 
     /*
     |--------------------------------------------------------------------------
