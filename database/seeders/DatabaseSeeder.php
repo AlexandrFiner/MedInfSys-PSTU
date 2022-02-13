@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Doctor;
+use App\Models\Patient;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
@@ -119,5 +120,11 @@ class DatabaseSeeder extends Seeder
             ->update([
                 'hospital_id' => 1
             ]);
+
+        // Добавляем пациентов
+        Patient::factory(50)->create();
+
+        // Добавляем врачей
+        Doctor::factory(50)->create();
     }
 }
