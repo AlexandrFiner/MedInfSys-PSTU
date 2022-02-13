@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Hospital;
 use App\Models\Laboratory;
 use App\Models\Polyclinic;
 use SleepingOwl\Admin\Model\ModelConfiguration;
@@ -29,7 +30,7 @@ AdminSection::registerModel(Polyclinic::class, function (ModelConfiguration $mod
             })
             ->addColumn(function () {
                 return [
-                    AdminFormElement::select('hospital_id', 'Больница', Polyclinic::class)->setDisplay('name'),
+                    AdminFormElement::select('hospital_id', 'Больница', Hospital::class)->setDisplay('name'),
                     AdminFormElement::multiselect('laboratories', 'Лаборатории', Laboratory::class)->setDisplay('name'),
                 ];
             });
