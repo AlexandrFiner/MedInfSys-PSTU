@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Doctor;
+use App\Models\Hospital;
 use App\Models\Patient;
+use App\Models\Polyclinic;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
@@ -126,5 +128,19 @@ class DatabaseSeeder extends Seeder
 
         // Добавляем врачей
         Doctor::factory(50)->create();
+
+        // Приклепляем врачей
+        $hospitals = Hospital::all();
+        $polyclinics = Polyclinic::all();
+        Doctor::all()->each(function ($doctor) use ($hospitals, $polyclinics) {
+            DB::table('doctor_hospitals')->insert([
+                'doctor_id' => $doctor->id,
+                'hospital_id' => $hospitals->random()->id
+            ]);
+            DB::table('doctor_polyclinics')->insert([
+                'doctor_id' => $doctor->id,
+                'polyclinic_id' => $polyclinics->random()->id
+            ]);
+        });
     }
 }
