@@ -31,6 +31,20 @@ AdminSection::registerModel(Appointment::class, function (ModelConfiguration $mo
                 ->setDisplay('name')
                 ->required(),
 
+            /*
+            AdminFormElement::dependentselect('hospital_id', 'Больница', ['patient_id'])
+                ->setModelForOptions( Hospital::class, 'name' )
+                ->setDisplay('name')
+                ->setHtmlAttribute('placeholder', 'Укажите пациента')
+                ->setDataDepends(['patient_id'])
+                ->setLoadOptionsQueryPreparer(function($element, $query) {
+                    $patient = Patient::find($element->getDependValue('patient_id'));
+                    $patient = Patient::find(1);
+                    return $query->where('id', $patient->hospital_id ?? 0);
+                })
+                ->required(),
+            */
+            /*
             AdminFormElement::dependentselect('hospital_id', 'Больница', ['patient_id'])
                 ->setModelForOptions( Hospital::class, 'name' )
                 ->setDisplay('name')
@@ -41,6 +55,7 @@ AdminSection::registerModel(Appointment::class, function (ModelConfiguration $mo
                     return $query->where('polyclinic_id', $patient->polyclinic_id ?? 0);
                 })
                 ->required(),
+            */
 
             AdminFormElement::dependentselect('doctor_id', 'Доктор', ['hospital_id'])
                 ->setModelForOptions( Doctor::class, 'name' )

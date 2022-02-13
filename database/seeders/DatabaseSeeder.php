@@ -113,10 +113,11 @@ class DatabaseSeeder extends Seeder
             ['name' => 'МедГарант'],
         ]);
 
-        // Поликлиники больниц
-        DB::table('hospital_polyclinics')->insert([
-            // ПККБ
-            ['hospital_id' => 1, 'polyclinic_id' => 1],
-        ]);
+        // Прикрепляем поликлиники к больницам
+        DB::table('polyclinics')
+            ->where('id', '=', 1)
+            ->update([
+                'hospital_id' => 1
+            ]);
     }
 }

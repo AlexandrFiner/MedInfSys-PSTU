@@ -13,7 +13,7 @@ class Polyclinic extends Model
         return $this->belongsToMany(Laboratory::class, 'polyclinic_laboratories');
     }
 
-    public function hospitals() {
-        return $this->belongsToMany(Hospital::class);
+    public function hospital() {
+        return $this->belongsTo(Hospital::class);
     }
 }

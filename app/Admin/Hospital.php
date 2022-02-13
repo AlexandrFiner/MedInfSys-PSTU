@@ -54,7 +54,7 @@ AdminSection::registerModel(Hospital::class, function (ModelConfiguration $model
                 AdminColumn::text('name')->setLabel('Поликлиника'),
             ]);
         $buildings->setApply(function ($query) use ($id) {
-            $query->whereIn('hospitals.id', $id);
+           $query->where('polyclinics.hospital_id', $id);
         });
         $form->addBody([$column, $buildings]);
         return $form;
