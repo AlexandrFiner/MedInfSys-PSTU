@@ -29,7 +29,7 @@ AdminSection::registerModel(Polyclinic::class, function (ModelConfiguration $mod
             })
             ->addColumn(function () {
                 return [
-                    AdminFormElement::select('hospital_id', 'Поликлиника', Polyclinic::class)->setDisplay('name'),
+                    AdminFormElement::select('hospital_id', 'Больница', Polyclinic::class)->setDisplay('name'),
                     AdminFormElement::multiselect('laboratories', 'Лаборатории', Laboratory::class)->setDisplay('name'),
                 ];
             });
