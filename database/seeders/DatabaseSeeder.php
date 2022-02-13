@@ -133,14 +133,37 @@ class DatabaseSeeder extends Seeder
         $hospitals = Hospital::all();
         $polyclinics = Polyclinic::all();
         Doctor::all()->each(function ($doctor) use ($hospitals, $polyclinics) {
-            DB::table('doctor_hospitals')->insert([
-                'doctor_id' => $doctor->id,
-                'hospital_id' => $hospitals->random()->id
-            ]);
-            DB::table('doctor_polyclinics')->insert([
-                'doctor_id' => $doctor->id,
-                'polyclinic_id' => $polyclinics->random()->id
-            ]);
+            $jobPlace = rand(1, 3);
+            switch ($jobPlace) {
+                case 1:
+                    // Работает в поликлинике
+                    DB::table('doctor_hospitals')->insert([
+                        'doctor_id' => $doctor->id,
+                        'hospital_id' => $hospitals->random()->id
+                    ]);
+
+                    break;
+                case 2:
+                    // Работает в больнице
+                    DB::table('doctor_polyclinics')->insert([
+                        'doctor_id' => $doctor->id,
+                        'polyclinic_id' => $polyclinics->random()->id
+                    ]);
+
+                    break;
+                case 3:
+                    // Работает и там и там
+                    DB::table('doctor_hospitals')->insert([
+                        'doctor_id' => $doctor->id,
+                        'hospital_id' => $hospitals->random()->id
+                    ]);
+                    DB::table('doctor_polyclinics')->insert([
+                        'doctor_id' => $doctor->id,
+                        'polyclinic_id' => $polyclinics->random()->id
+                    ]);
+
+                    break;
+            }
         });
     }
 }

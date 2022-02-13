@@ -66,7 +66,6 @@ AdminSection::registerModel(Appointment::class, function (ModelConfiguration $mo
                 })
                 ->required(),
 
-            /*
             AdminFormElement::dependentselect('doctor_id', 'Доктор', ['hospital_id'])
                 ->setModelForOptions( Doctor::class, 'name' )
                 ->setDisplay('name')
@@ -81,7 +80,6 @@ AdminSection::registerModel(Appointment::class, function (ModelConfiguration $mo
                     return $query->whereIn('id', $doctorsList);
                 })
                 ->required(),
-            */
             AdminFormElement::text('name', 'Запись')->required(),
         ]);
         return $form;
