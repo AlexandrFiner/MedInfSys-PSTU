@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Department;
 use App\Models\Hospital;
 use App\Models\Polyclinic;
 use SleepingOwl\Admin\Contracts\Display\Extension\FilterInterface;
@@ -48,6 +49,15 @@ AdminSection::registerModel(Hospital::class, function (ModelConfiguration $model
                 ];
             });
 
+        $departments = AdminDisplay::table()
+            ->setModelClass(Department::class)
+            ->setColumns([
+                AdminColumn::text('name')->setLabel('Корпус'),
+            ]);
+        $departments->setApply(function ($query) use ($id) {
+            $query->where('hospital_id', $id);
+        });
+
         $buildings = AdminDisplay::table()
             ->setModelClass(Polyclinic::class)
             ->setColumns([
@@ -56,7 +66,8 @@ AdminSection::registerModel(Hospital::class, function (ModelConfiguration $model
         $buildings->setApply(function ($query) use ($id) {
            $query->where('polyclinics.hospital_id', $id);
         });
-        $form->addBody([$column, $buildings]);
+
+        $form->addBody([$column, $departments, $buildings]);
         return $form;
     });
 })
