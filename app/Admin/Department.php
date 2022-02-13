@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Department;
+use App\Models\Hospital;
 use SleepingOwl\Admin\Model\ModelConfiguration;
 
 AdminSection::registerModel(Department::class, function (ModelConfiguration $model) {
@@ -15,6 +16,16 @@ AdminSection::registerModel(Department::class, function (ModelConfiguration $mod
 
         $display->paginate(15);
         return $display;
+    });
+
+    $model->onCreate(function () {
+        $form = AdminForm::panel();
+
+        $form->addBody([
+            AdminFormElement::text('name', 'Название корпуса')->required(),
+            AdminFormElement::select('hospital_id', 'Больница', Hospital::class)->setDisplay('name')->required(),
+        ]);
+        return $form;
     });
 })
     ->addMenuPage(Department::class, 3)
