@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Make storage
         run: |
-          cd storage/
+          cd ./storage/
           mkdir -p framework/{sessions,views,cache}
 
       - name: Checkout
