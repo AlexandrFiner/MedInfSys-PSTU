@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.4', '8.0', '8.1']
+        php-versions: ['8.0']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -64,7 +64,7 @@ jobs:
         run: php artisan config:clear
 
       - name: Run Migration
-        run: php artisan migrate -v
+        run: php artisan migrate -v --seed
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
