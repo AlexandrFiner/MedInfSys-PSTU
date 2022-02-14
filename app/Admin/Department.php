@@ -30,18 +30,22 @@ AdminSection::registerModel(Department::class, function (ModelConfiguration $mod
             AdminColumn::text('id')->setLabel('#'),
             AdminColumn::text('name')->setLabel('Название'),
             AdminColumn::text('hospital.name')->setLabel('Больница'),
+            AdminColumn::text('rooms')->setLabel('Количество палат'),
+            AdminColumn::text('beds')->setLabel('Количество коек'),
         ]);
 
         $display->paginate(15);
         return $display;
     });
 
-    $model->onCreate(function () {
+    $model->onCreateAndEdit(function () {
         $form = AdminForm::panel();
 
         $form->addBody([
             AdminFormElement::text('name', 'Название корпуса')->required(),
             AdminFormElement::select('hospital_id', 'Больница', Hospital::class)->setDisplay('name')->required(),
+            AdminFormElement::number('rooms', 'Количество палат')->setMin(0)->required(),
+            AdminFormElement::number('beds', 'Количество коек')->setMin(0)->required(),
         ]);
         return $form;
     });

@@ -17,6 +17,10 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->text('name');
+            $table->enum('gender', [
+                'female',
+                'male'
+            ])->default('female');
             $table->enum('degree', [
                null,
                'candidate',

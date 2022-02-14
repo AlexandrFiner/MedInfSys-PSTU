@@ -8,7 +8,7 @@ use App\Models\Polyclinic;
 use SleepingOwl\Admin\Model\ModelConfiguration;
 
 AdminSection::registerModel(Appointment::class, function (ModelConfiguration $model) {
-    $model->setTitle('Запись');
+    $model->setTitle('Запись в больницу');
 
     $model->onDisplay(function () {
         $display = AdminDisplay::datatablesAsync();

@@ -20,6 +20,25 @@ AdminSection::registerModel(Patient::class, function (ModelConfiguration $model)
                 ->setOperator(FilterInterface::CONTAINS)
                 ->setHtmlAttribute('style', 'width: 100%'),
 
+
+            AdminColumnFilter::range()->setFrom(
+                AdminColumnFilter::text()->setPlaceholder('от')
+            )->setTo(
+                AdminColumnFilter::text()->setPlaceholder('до')
+            ),
+            AdminColumnFilter::range()->setFrom(
+                AdminColumnFilter::text()->setPlaceholder('от')
+            )->setTo(
+                AdminColumnFilter::text()->setPlaceholder('до')
+            ),
+
+            AdminColumnFilter::select([
+                'male' => 'Мужской',
+                'female' => 'Женский',
+            ], 'Пол')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),
+
             AdminColumnFilter::range()->setFrom(
                 AdminColumnFilter::date()->setPlaceholder('С даты')->setFormat('Y.m.d')
             )->setTo(
@@ -36,6 +55,22 @@ AdminSection::registerModel(Patient::class, function (ModelConfiguration $model)
         $display->setColumns([
             AdminColumn::text('id')->setLabel('#'),
             AdminColumn::text('name')->setLabel('ФИО'),
+            /*
+            AdminColumn::custom('weight', function($patient) {
+                return $patient['weight'].' кг';
+            })->setLabel('Вес'),
+            AdminColumn::custom('height', function($patient) {
+                return $patient['height'].' см';
+            })->setLabel('Рост'),
+            */
+            AdminColumn::text('weight')->setLabel('Вес'),
+            AdminColumn::text('height')->setLabel('Рост'),
+            AdminColumn::custom('gender', function($patient) {
+                return match ($patient['gender']) {
+                    'male' => '<i class="fas fa-mars" style="color: #009ff1;font-size: 30px"></i>',
+                    'female' => '<i class="fas fa-venus" style="color: #f284af;font-size: 30px"></i>',
+                };
+            })->setLabel('Пол'),
             AdminColumn::text('birthday')->setLabel('Дата рождения'),
             AdminColumn::text('polyclinic.name')->setLabel('Поликлиника прикрипления')
         ]);
@@ -48,8 +83,14 @@ AdminSection::registerModel(Patient::class, function (ModelConfiguration $model)
         $form = AdminForm::panel();
 
         $form->addBody([
-            AdminFormElement::text('name', 'ФИО'),
+            AdminFormElement::text('name', 'ФИО')->required(),
+            AdminFormElement::select('gender', 'Пол', [
+                'male' => 'Мужской',
+                'female' => 'Женский',
+            ])->required(),
             AdminFormElement::date('birthday', 'Дата рождения')->required(),
+            AdminFormElement::float('weight', 'Вес')->setMin(0)->setStep(0.01)->required(),
+            AdminFormElement::float('height', 'Рост')->setMin(0)->setStep(0.01)->required(),
             AdminFormElement::select('polyclinic_id', 'Поликлиника', Polyclinic::class)->setDisplay('name')->required(),
         ]);
         return $form;
@@ -62,8 +103,14 @@ AdminSection::registerModel(Patient::class, function (ModelConfiguration $model)
             $tabs = [];
 
             $tabs[] = AdminDisplay::tab(AdminForm::elements([
-                AdminFormElement::text('name', 'ФИО'),
+                AdminFormElement::text('name', 'ФИО')->required(),
+                AdminFormElement::select('gender', 'Пол', [
+                    'male' => 'Мужской',
+                    'female' => 'Женский',
+                ])->required(),
                 AdminFormElement::date('birthday', 'Дата рождения')->required(),
+                AdminFormElement::number('weight', 'Вес')->setMin(0)->setStep(0.01)->required(),
+                AdminFormElement::number('height', 'Рост')->setMin(0)->setStep(0.01)->required(),
                 AdminFormElement::select('polyclinic_id', 'Поликлиника', Polyclinic::class)->setDisplay('name')->required(),
             ]))->setLabel('Данные о пациенте');
 

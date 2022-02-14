@@ -17,8 +17,11 @@ class DoctorFactory extends Factory
      */
     public function definition()
     {
+        $gender = $this->faker->randomElement(['male', 'female']);
+
         return [
             'name' => $this->faker->name(),
+            'gender' => $gender,
             'degree' => null,
             'profile_doctors_id' => DB::table('profile_doctors')->inRandomOrder()->first()->id,
         ];

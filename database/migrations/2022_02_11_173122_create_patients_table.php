@@ -18,6 +18,12 @@ return new class extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->text('name');
+            $table->enum('gender', [
+                'female',
+                'male'
+            ])->default('female');
+            $table->float('height')->default(0);
+            $table->float('weight')->default(0);
             $table->date('birthday');
             $table->foreignIdFor(Polyclinic::class);
             $table->timestamps();

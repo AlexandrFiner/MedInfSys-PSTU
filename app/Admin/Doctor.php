@@ -21,6 +21,13 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
                 ->setOperator(FilterInterface::CONTAINS)
                 ->setHtmlAttribute('style', 'width: 100%'),
 
+            AdminColumnFilter::select([
+                'male' => 'Мужской',
+                'female' => 'Женский',
+            ], 'Пол')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),
+
             AdminColumnFilter::select()
                 ->setModelForOptions(ProfileDoctors::class, 'name')
                 ->setColumnName('profile.id')
@@ -44,6 +51,12 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
         $display->setColumns([
             AdminColumn::text('id')->setLabel('#'),
             AdminColumn::text('name')->setLabel('ФИО'),
+            AdminColumn::custom('gender', function($patient) {
+                return match ($patient['gender']) {
+                    'male' => '<i class="fas fa-mars" style="color: #009ff1;font-size: 30px"></i>',
+                    'female' => '<i class="fas fa-venus" style="color: #f284af;font-size: 30px"></i>',
+                };
+            })->setLabel('Пол'),
             AdminColumn::text('profile.name')->setLabel('Профиль'),
             AdminColumn::lists('polyclinics.name', 'Polyclinic')->setLabel('Поликлиники'),
             AdminColumn::lists('hospitals.name', 'Hospital')->setLabel('Больницы'),
@@ -58,6 +71,10 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
 
         $form->addBody([
             AdminFormElement::text('name', 'ФИО')->required(),
+            AdminFormElement::select('gender', 'Пол', [
+                'male' => 'Мужской',
+                'female' => 'Женский',
+            ])->required(),
             AdminFormElement::select('profile_doctors_id', 'Профиль', ProfileDoctors::class)
                 ->setDisplay('name')
                 ->required(),
@@ -71,6 +88,10 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
         // Todo:: максимальное количество работ в зависимости от звания
         $form->addBody([
             AdminFormElement::text('name', 'ФИО')->required(),
+            AdminFormElement::select('gender', 'Пол', [
+                'male' => 'Мужской',
+                'female' => 'Женский',
+            ])->required(),
             AdminFormElement::select('profile_doctors_id', 'Профиль', ProfileDoctors::class)
                 ->setDisplay('name')
                 ->required(),
