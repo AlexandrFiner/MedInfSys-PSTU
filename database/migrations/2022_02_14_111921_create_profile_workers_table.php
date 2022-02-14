@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\ProfileWorkers;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('workers', function (Blueprint $table) {
+        Schema::create('profile_workers', function (Blueprint $table) {
             $table->id();
             $table->text('name');
-            $table->foreignIdFor(ProfileWorkers::class);
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('workers');
+        Schema::dropIfExists('profile_workers');
     }
 };

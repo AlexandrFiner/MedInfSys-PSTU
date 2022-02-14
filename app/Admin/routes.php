@@ -1,5 +1,5 @@
 <?php
 
-Route::get('', ['as' => 'admin.dashboard', function () {
+Route::get('', ['as' => 'dashboard', function () {
 	return AdminSection::view('Главная', 'Главная');
 }]);

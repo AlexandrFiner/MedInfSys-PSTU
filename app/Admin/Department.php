@@ -2,6 +2,7 @@
 
 use App\Models\Department;
 use App\Models\Hospital;
+use SleepingOwl\Admin\Contracts\Display\Extension\FilterInterface;
 use SleepingOwl\Admin\Model\ModelConfiguration;
 
 AdminSection::registerModel(Department::class, function (ModelConfiguration $model) {
@@ -9,6 +10,7 @@ AdminSection::registerModel(Department::class, function (ModelConfiguration $mod
 
     $model->onDisplay(function () {
         $display = AdminDisplay::datatablesAsync();
+        $display->setNewEntryButtonText('Добавить корпус');
 
         $display->setColumnFilters([
             null,

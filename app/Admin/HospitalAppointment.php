@@ -12,6 +12,7 @@ AdminSection::registerModel(HospitalAppointment::class, function (ModelConfigura
 
     $model->onDisplay(function () {
         $display = AdminDisplay::datatablesAsync();
+        $display->setNewEntryButtonText('Запись пациента');
         $display->setColumns([
             AdminColumn::text('id')->setLabel('#'),
             AdminColumn::text('patient.name')->setLabel('Пациент'),

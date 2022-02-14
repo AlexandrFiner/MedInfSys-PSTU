@@ -5,6 +5,7 @@ use App\Models\HospitalAppointment;
 use App\Models\PolyclinicAppointment;
 use App\Models\ProfileDoctors;
 use App\Models\ProfileLaboratories;
+use App\Models\ProfileWorkers;
 use App\Models\Worker;
 use SleepingOwl\Admin\Navigation\Page;
 
@@ -28,6 +29,8 @@ return [
             (new Page(ProfileLaboratories::class))
                 ->setIcon('fa fa-user'),
             (new Page(ProfileDoctors::class))
+                ->setIcon('fa fa-user'),
+            (new Page(ProfileWorkers::class))
                 ->setIcon('fa fa-user'),
         ]
     ],

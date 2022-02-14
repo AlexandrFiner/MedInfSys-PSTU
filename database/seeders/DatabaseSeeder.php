@@ -6,6 +6,7 @@ use App\Models\Doctor;
 use App\Models\Hospital;
 use App\Models\Patient;
 use App\Models\Polyclinic;
+use App\Models\Worker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
@@ -128,6 +129,23 @@ class DatabaseSeeder extends Seeder
 
         // Добавляем врачей
         Doctor::factory(50)->create();
+
+        // Добавляем должности для обслуживающего персонала
+        DB::table('profile_workers')->insert([
+            ['name' => 'Заведующий хозяйством'],
+            ['name' => 'Главный бухгалтер'],
+            ['name' => 'Начальник отдела кадров'],
+            ['name' => 'Инспектор по кадрам'],
+            ['name' => 'Старший экономист'],
+            ['name' => 'Инженер'],
+            ['name' => 'Медсестра'],
+            ['name' => 'Главный врач'],
+            ['name' => 'Санитар'],
+            ['name' => 'Уборщица'],
+        ]);
+
+        // Добавляем персонал
+        Worker::factory(50)->create();
 
         // Приклепляем врачей
         $hospitals = Hospital::all();

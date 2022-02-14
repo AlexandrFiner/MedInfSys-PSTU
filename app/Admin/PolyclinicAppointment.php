@@ -8,6 +8,7 @@ AdminSection::registerModel(PolyclinicAppointment::class, function (ModelConfigu
 
     $model->onDisplay(function () {
         $display = AdminDisplay::datatablesAsync();
+        $display->setNewEntryButtonText('Запись пациента');
         $display->setColumns([
             AdminColumn::text('id')->setLabel('#'),
         ]);

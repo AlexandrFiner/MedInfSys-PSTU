@@ -11,7 +11,9 @@ AdminSection::registerModel(Patient::class, function (ModelConfiguration $model)
 
     $model->onDisplay(function () {
         $display = AdminDisplay::datatablesAsync();
+        $display->setNewEntryButtonText('Добавить пациента');
 
+        // Todo:: сделать кнопки записи в этой модели
         $display->setColumnFilters([
             null,
 

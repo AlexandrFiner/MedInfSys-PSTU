@@ -2,10 +2,16 @@
 
 namespace App\Providers;
 
+use App\Admin\Widgets\DashboardMap;
 use Illuminate\Support\ServiceProvider;
+use SleepingOwl\Admin\Contracts\Widgets\WidgetsRegistryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
+    protected $widgets = [
+        DashboardMap::class
+    ];
+
     /**
      * Register any application services.
      *
@@ -23,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Регистрация виджетов в реестре
+        $widgetsRegistry = $this->app[WidgetsRegistryInterface::class];
+
+        foreach ($this->widgets as $widget) {
+            $widgetsRegistry->registerWidget($widget);
+        }
     }
 }
