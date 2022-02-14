@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\AppointmentHospital;
+use App\Models\HospitalAppointment;
 use App\Models\Patient;
 use App\Models\Polyclinic;
 use SleepingOwl\Admin\Contracts\Display\Extension\FilterInterface;
@@ -119,7 +119,7 @@ AdminSection::registerModel(Patient::class, function (ModelConfiguration $model)
             $tabs[] = AdminDisplay::tab(AdminForm::elements([
 
                 AdminDisplay::table()
-                    ->setModelClass(AppointmentHospital::class)
+                    ->setModelClass(HospitalAppointment::class)
                     ->setColumns([
                         AdminColumn::text('name')->setLabel('Запись'),
                     ])
