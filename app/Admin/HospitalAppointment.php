@@ -33,37 +33,19 @@ AdminSection::registerModel(HospitalAppointment::class, function (ModelConfigura
                 ->setDisplay('name')
                 ->required(),
 
-            /*
             AdminFormElement::dependentselect('hospital_id', 'Больница', ['patient_id'])
                 ->setModelForOptions( Hospital::class, 'name' )
                 ->setDisplay('name')
                 ->setHtmlAttribute('placeholder', 'Укажите пациента')
                 ->setDataDepends(['patient_id'])
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    $patient = Patient::find($element->getDependValue('patient_id'));
-                    $patient = Patient::find(1);
-                    return $query->where('id', $patient->hospital_id ?? 0);
-                })
-                ->required(),
-            */
-            AdminFormElement::dependentselect('hospital_id', 'Больница', ['patient_id'])
-                ->setModelForOptions( Hospital::class, 'name' )
-                ->setDisplay('name')
-                ->setHtmlAttribute('placeholder', 'Укажите пациента')
-                ->setDataDepends(['patient_id'])
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    /*
-                    $patient = Patient::find($element->getDependValue('patient_id'));
-                    return $query->where('polyclinic_id', $patient->polyclinic_id ?? 0);
-                    */
                     $patient = Patient::find($element->getDependValue('patient_id'));
                     $polyclinic = Polyclinic::find($patient->polyclinic_id ?? 0);
                     $countHospital = Hospital::where('id', $polyclinic->hospital_id ?? 0)->count();
                     if($countHospital)
                         return $query->where('id', $polyclinic->hospital_id ?? 0);
-                    else
-                        return $query;
-                    // return $query->where;
+
+                    return $query;
                 })
                 ->required(),
 

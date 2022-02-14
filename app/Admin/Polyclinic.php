@@ -73,16 +73,6 @@ AdminSection::registerModel(Polyclinic::class, function (ModelConfiguration $mod
                 ];
             });
 
-        /*
-        $buildings = AdminDisplay::table()
-            ->setModelClass(Building::class)
-            ->setColumns([
-                AdminColumn::text('name')->setLabel('Больница'),
-            ]);
-        $buildings->setApply(function ($query) use ($id) {
-            $query->where('polyclinic_id', $id);
-        });
-        */
         $form->addBody([$column]);
         return $form;
     });

@@ -20,13 +20,6 @@ AdminSection::registerModel(Laboratory::class, function (ModelConfiguration $mod
                 ->setOperator(FilterInterface::CONTAINS)
                 ->setHtmlAttribute('style', 'width: 100%'),
 
-            /*
-            AdminColumnFilter::select()
-                ->setModelForOptions(ProfileLaboratories::class, 'name')
-                ->setColumnName('profiles.name')
-                ->multiple()
-                ->setHtmlAttribute('style', 'width: 100%'),
-            */
         ]);
         $display->getColumnFilters()->setPlacement('table.header');
         $display->setColumns([

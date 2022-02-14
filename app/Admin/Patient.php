@@ -57,14 +57,6 @@ AdminSection::registerModel(Patient::class, function (ModelConfiguration $model)
         $display->setColumns([
             AdminColumn::text('id')->setLabel('#'),
             AdminColumn::text('name')->setLabel('ФИО'),
-            /*
-            AdminColumn::custom('weight', function($patient) {
-                return $patient['weight'].' кг';
-            })->setLabel('Вес'),
-            AdminColumn::custom('height', function($patient) {
-                return $patient['height'].' см';
-            })->setLabel('Рост'),
-            */
             AdminColumn::text('weight')->setLabel('Вес'),
             AdminColumn::text('height')->setLabel('Рост'),
             AdminColumn::custom('gender', function($patient) {
@@ -132,15 +124,6 @@ AdminSection::registerModel(Patient::class, function (ModelConfiguration $model)
         });
         return AdminForm::card()
             ->addBody([$tabs]);
-        /*
-        $form = AdminForm::panel();
-
-        $form->addBody([
-            AdminFormElement::text('name', 'ФИО')->required(),
-        ]);
-
-        return $form;
-        */
     });
 })
     ->addMenuPage(Patient::class, 1)
