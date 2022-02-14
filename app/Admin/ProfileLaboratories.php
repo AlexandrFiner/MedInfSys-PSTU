@@ -4,7 +4,7 @@ use App\Models\ProfileLaboratories;
 use SleepingOwl\Admin\Model\ModelConfiguration;
 
 AdminSection::registerModel(ProfileLaboratories::class, function (ModelConfiguration $model) {
-    $model->setTitle('Профили лаб.');
+    $model->setTitle('Лаборатории');
 
     $model->onDisplay(function () {
         $display = AdminDisplay::datatablesAsync();
@@ -36,6 +36,4 @@ AdminSection::registerModel(ProfileLaboratories::class, function (ModelConfigura
         ]);
         return $form;
     });
-})
-    ->addMenuPage(ProfileLaboratories::class, 5)
-    ->setIcon('fas fa-medkit');
+});

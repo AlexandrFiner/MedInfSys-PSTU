@@ -38,6 +38,4 @@ AdminSection::registerModel(Worker::class, function (ModelConfiguration $model) 
         ]);
         return $form;
     });
-})
-    ->addMenuPage(Worker::class, 1)
-    ->setIcon('fa fa-user');
+});

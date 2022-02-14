@@ -4,7 +4,7 @@ use App\Models\ProfileDoctors;
 use SleepingOwl\Admin\Model\ModelConfiguration;
 
 AdminSection::registerModel(ProfileDoctors::class, function (ModelConfiguration $model) {
-    $model->setTitle('Профили док.');
+    $model->setTitle('Врачи');
 
     $model->onDisplay(function () {
         $display = AdminDisplay::datatablesAsync();
@@ -36,6 +36,4 @@ AdminSection::registerModel(ProfileDoctors::class, function (ModelConfiguration 
         ]);
         return $form;
     });
-})
-    ->addMenuPage(ProfileDoctors::class, 5)
-    ->setIcon('fas fa-medkit');
+});

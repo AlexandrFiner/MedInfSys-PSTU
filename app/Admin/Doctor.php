@@ -105,6 +105,4 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
         ]);
         return $form;
     });
-})
-    ->addMenuPage(Doctor::class, 1)
-    ->setIcon('fa fa-user');
+});

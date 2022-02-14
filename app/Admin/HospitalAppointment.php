@@ -1,14 +1,14 @@
 <?php
 
-use App\Models\Appointment;
+use App\Models\HospitalAppointment;
 use App\Models\Hospital;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\Polyclinic;
 use SleepingOwl\Admin\Model\ModelConfiguration;
 
-AdminSection::registerModel(Appointment::class, function (ModelConfiguration $model) {
-    $model->setTitle('Запись в больницу');
+AdminSection::registerModel(HospitalAppointment::class, function (ModelConfiguration $model) {
+    $model->setTitle('Больница');
 
     $model->onDisplay(function () {
         $display = AdminDisplay::datatablesAsync();
@@ -84,6 +84,4 @@ AdminSection::registerModel(Appointment::class, function (ModelConfiguration $mo
         ]);
         return $form;
     });
-})
-    ->addMenuPage(Appointment::class, 1)
-    ->setIcon('fa fa-user');
+});
