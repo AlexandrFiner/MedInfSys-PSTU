@@ -17,7 +17,7 @@ return [
     | Admin Mini logo
     |--------------------------------------------------------------------------
     */
-    'logo_mini'          => '<img src="https://svgshare.com/i/eBq.svg" alt="logo">',
+    'logo_mini'          => '<img src="/images/logo-mini.svg" alt="logo">',
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ return [
     |
     */
 
-    'logo' => '<img src="https://svgshare.com/i/eAe.svg" alt="logo">',
+    'logo' => '<img src="/images/logo.svg" lt="logo">',
 
     /*
     |--------------------------------------------------------------------------
@@ -82,7 +82,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'favicon' => 'https://svgshare.com/i/eBq.svg',
+    'favicon' => '/images/logo-mini.svg',
 
     /*
     |--------------------------------------------------------------------------
