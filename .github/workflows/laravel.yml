@@ -25,11 +25,6 @@ jobs:
       matrix:
         php-versions: ['8.0']
     steps:
-      - name: Make storage
-        run: |
-          cd ./storage/
-          mkdir -p framework/{sessions,views,cache}
-
       - name: Checkout
         uses: actions/checkout@v2
 
