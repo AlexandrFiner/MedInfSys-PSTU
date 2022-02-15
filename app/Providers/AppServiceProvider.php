@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Admin\Widgets\DashboardMap;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 use SleepingOwl\Admin\Contracts\Widgets\WidgetsRegistryInterface;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Для работы с MariaDB
+        Schema::defaultStringLength(191);
+
         // Регистрация виджетов в реестре
         $widgetsRegistry = $this->app[WidgetsRegistryInterface::class];
 
