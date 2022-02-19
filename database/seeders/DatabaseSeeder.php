@@ -98,6 +98,12 @@ class DatabaseSeeder extends Seeder
            ['name' => 'ГКБ №4'],
         ]);
 
+        // Отделения
+        DB::table('departments')->insert([
+            ['hospital_id' => 1, 'name' => 'Главный корпус', 'beds' => 10, 'rooms' => 2 ],
+            ['hospital_id' => 2, 'name' => 'Главный корпус', 'beds' => 10, 'rooms' => 2 ],
+        ]);
+
         // Поликлиники
         DB::table('polyclinics')->insert([
             // С больницей

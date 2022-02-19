@@ -12,4 +12,18 @@ class Department extends Model
     public function hospital() {
         return $this->belongsTo(Hospital::class);
     }
+
+    /*
+     * Занятые койки
+     */
+    public function getOccupiedRoomsAttribute() {
+        return HospitalAppointment::where('department_id', $this->id)->where('status', 'process')->count();
+    }
+
+    /*
+     * Свободные койки
+     */
+    public function getFreeRoomsAttribute() {
+        return $this->rooms * $this->beds - $this->occupied_rooms;
+    }
 }

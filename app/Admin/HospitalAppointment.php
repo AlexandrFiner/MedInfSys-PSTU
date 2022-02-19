@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Department;
 use App\Models\HospitalAppointment;
 use App\Models\Hospital;
 use App\Models\Doctor;
@@ -16,9 +17,16 @@ AdminSection::registerModel(HospitalAppointment::class, function (ModelConfigura
         $display->setColumns([
             AdminColumn::text('id')->setLabel('#'),
             AdminColumn::text('patient.name')->setLabel('Пациент'),
-            AdminColumn::text('name')->setLabel('Описание'),
-            AdminColumn::text('doctor.name')->setLabel('Доктор'),
+            AdminColumn::custom('status', function($appointment) {
+                return match ($appointment['status']) {
+                    'process' => '<small class="badge badge-warning">Проходит лечение</small>',
+                    'released' => '<small class="badge badge-success">Выписан</small>',
+                };
+            })->setLabel('Статус'),
+            AdminColumn::text('description')->setLabel('Описание'),
+            AdminColumn::text('doctor.name')->setLabel('Лечащий врач'),
             AdminColumn::text('hospital.name')->setLabel('Больница'),
+            AdminColumn::text('department.name')->setLabel('Отделение'),
         ]);
 
         $display->paginate(15);
@@ -40,16 +48,29 @@ AdminSection::registerModel(HospitalAppointment::class, function (ModelConfigura
                 ->setDataDepends(['patient_id'])
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
                     $patient = Patient::find($element->getDependValue('patient_id'));
-                    $polyclinic = Polyclinic::find($patient->polyclinic_id ?? 0);
-                    $countHospital = Hospital::where('id', $polyclinic->hospital_id ?? 0)->count();
-                    if($countHospital)
-                        return $query->where('id', $polyclinic->hospital_id ?? 0);
+                    if($patient) {
+                        $polyclinic = Polyclinic::find($patient->polyclinic_id ?? 0);
+                        $countHospital = Hospital::where('id', $polyclinic->hospital_id ?? 0)->count();
+                        if ($countHospital)
+                            return $query->where('id', $polyclinic->hospital_id ?? 0);
 
-                    return $query;
+                        return $query;
+                    }
+                    return $query->where('id', 0);
                 })
                 ->required(),
 
-            AdminFormElement::dependentselect('doctor_id', 'Доктор', ['hospital_id'])
+            AdminFormElement::dependentselect('department_id', 'Отделение', ['hospital_id'])
+                ->setModelForOptions( Department::class, 'name' )
+                ->setDisplay('name')
+                ->setHtmlAttribute('placeholder', 'Укажите больницу')
+                ->setDataDepends(['hospital_id'])
+                ->setLoadOptionsQueryPreparer(function($element, $query) {
+                    return $query->where('hospital_id', $element->getDependValue('hospital_id') ?? 0);
+                })
+                ->required(),
+
+            AdminFormElement::dependentselect('doctor_id', 'Лечащий врач', ['hospital_id'])
                 ->setModelForOptions( Doctor::class, 'name' )
                 ->setDisplay('name')
                 ->setHtmlAttribute('placeholder', 'Укажите больницу')
@@ -63,7 +84,8 @@ AdminSection::registerModel(HospitalAppointment::class, function (ModelConfigura
                     return $query->whereIn('id', $doctorsList);
                 })
                 ->required(),
-            AdminFormElement::text('name', 'Запись')->required(),
+
+            AdminFormElement::text('description', 'Описание'),
         ]);
         return $form;
     });
