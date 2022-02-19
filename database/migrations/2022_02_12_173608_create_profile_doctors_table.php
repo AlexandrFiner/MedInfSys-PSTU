@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('profile_doctors', function (Blueprint $table) {
             $table->id();
             $table->text('name');
+            $table->boolean('can_operate')->default(false);
             $table->timestamps();
         });
     }

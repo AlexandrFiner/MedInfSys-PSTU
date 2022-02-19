@@ -78,6 +78,7 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
             AdminFormElement::select('profile_doctors_id', 'Профиль', ProfileDoctors::class)
                 ->setDisplay('name')
                 ->required(),
+            AdminFormElement::date('date_started_working', 'Когда начал работать')->required(),
         ]);
         return $form;
     });
@@ -95,6 +96,7 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
             AdminFormElement::select('profile_doctors_id', 'Профиль', ProfileDoctors::class)
                 ->setDisplay('name')
                 ->required(),
+            AdminFormElement::date('date_started_working', 'Когда начал работать')->required(),
             AdminFormElement::select('degree', 'Звание', [
                 ' ' => 'Нет звания',
                 'candidate' => 'Кандидат',
