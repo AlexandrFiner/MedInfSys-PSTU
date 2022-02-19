@@ -27,6 +27,7 @@ return new class extends Migration
                'doctor'
             ])->nullable(true);
             $table->foreignIdFor(ProfileDoctors::class);
+            $table->date('date_started_working');
             $table->timestamps();
         });
     }

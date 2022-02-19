@@ -32,7 +32,9 @@ AdminSection::registerModel(Department::class, function (ModelConfiguration $mod
             AdminColumn::text('name')->setLabel('Название'),
             AdminColumn::text('hospital.name')->setLabel('Больница'),
             AdminColumn::text('rooms')->setLabel('Количество палат'),
-            AdminColumn::text('beds')->setLabel('Количество коек'),
+            AdminColumn::text('beds')->setLabel('Коек в палате'),
+            AdminColumn::text('occupied_rooms')->setLabel('Занято коек'),
+            AdminColumn::text('free_rooms')->setLabel('Свободно коек'),
         ]);
 
         $display->paginate(15);

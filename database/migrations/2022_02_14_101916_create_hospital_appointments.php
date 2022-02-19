@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Department;
 use App\Models\Patient;
 use App\Models\Hospital;
 use App\Models\Doctor;
@@ -20,14 +21,13 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Patient::class);
             $table->foreignIdFor(Hospital::class);
+            $table->foreignIdFor(Department::class);
             $table->foreignIdFor(Doctor::class);
-            $table->text('name');
+            $table->text('description')->nullable(true);
             $table->enum('status', [
-                'created',
-                'progress',
-                'died',
-                'success'
-            ]);
+                'process',
+                'released'
+            ])->default('process');
             $table->timestamps();
         });
     }

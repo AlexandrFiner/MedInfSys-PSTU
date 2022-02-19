@@ -24,6 +24,7 @@ class DoctorFactory extends Factory
             'gender' => $gender,
             'degree' => null,
             'profile_doctors_id' => DB::table('profile_doctors')->inRandomOrder()->first()->id,
+            'date_started_working' => $this->faker->date(),
         ];
     }
 }

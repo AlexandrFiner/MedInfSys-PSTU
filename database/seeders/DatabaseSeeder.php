@@ -28,13 +28,13 @@ class DatabaseSeeder extends Seeder
 
         // Добавляем профили врачей
         DB::table('profile_doctors')->insert([
-            ['name' => 'Хирург'],
-            ['name' => 'Терапевт'],
-            ['name' => 'Невропатолог'],
-            ['name' => 'Окулист'],
-            ['name' => 'Стоматолог'],
-            ['name' => 'Рентгенолог'],
-            ['name' => 'Гинеколог'],
+            ['name' => 'Хирург', 'can_operate' => true],
+            ['name' => 'Терапевт', 'can_operate' => false],
+            ['name' => 'Невропатолог', 'can_operate' => false],
+            ['name' => 'Окулист', 'can_operate' => false],
+            ['name' => 'Стоматолог', 'can_operate' => true],
+            ['name' => 'Рентгенолог', 'can_operate' => false],
+            ['name' => 'Гинеколог', 'can_operate' => true],
         ]);
 
         // Добавляем лаборатории
@@ -96,6 +96,12 @@ class DatabaseSeeder extends Seeder
         DB::table('hospitals')->insert([
            ['name' => 'ПККБ'],
            ['name' => 'ГКБ №4'],
+        ]);
+
+        // Отделения
+        DB::table('departments')->insert([
+            ['hospital_id' => 1, 'name' => 'Главный корпус', 'beds' => 10, 'rooms' => 2 ],
+            ['hospital_id' => 2, 'name' => 'Главный корпус', 'beds' => 10, 'rooms' => 2 ],
         ]);
 
         // Поликлиники
