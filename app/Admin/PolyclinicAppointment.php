@@ -121,4 +121,17 @@ AdminSection::registerModel(PolyclinicAppointment::class, function (ModelConfigu
         ]);
         return $form;
     });
+
+    $model->onEdit(function () {
+        $form = AdminForm::panel();
+
+        $form->addBody([
+            AdminFormElement::select('status', 'Статус', [
+                'waiting' => 'Запись',
+                'error' => 'Не явился',
+                'success' => 'Успешно',
+            ])->required(),
+        ]);
+        return $form;
+    });
 });
