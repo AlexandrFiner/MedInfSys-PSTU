@@ -4,10 +4,18 @@
 
 Курсовая работа по базам данных. 
 
-- PHP 8.0.7
+- PHP 8.0.10
 - Laravel Framework 9.0.2
 - SleepingOwl Admin
 - MySQL
+
+## Установка
+1. Установите [Docker compose](https://github.com/AlexandrFiner/docker-compose-lamp)
+2. Введите команду ```docker-compose up -d```
+3. Установите для права доступа ```777``` для каталога ```storage``` и ```public``` рекурсивно
+4. Установите требуемые пакеты ```composer i```
+5. Произведите миграцию в проекте ```php artisan migrate```
+6. При необходимости используйте фабрики, для заполнения базы ```php artisan db:seed```
 
 ## Постановка задачи
 
