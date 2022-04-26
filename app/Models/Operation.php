@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Operation extends Model
 {
     use HasFactory;
+
+    public function operatable() {
+        return $this->morphTo();
+    }
 }

@@ -12,4 +12,8 @@ class Hospital extends Model
     public function polyclinics() {
         return $this->hasMany(Polyclinic::class);
     }
+
+    public function operations() {
+        return $this->morphMany('App\Operation', 'operatable');
+    }
 }
