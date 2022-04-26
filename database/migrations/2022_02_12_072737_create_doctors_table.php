@@ -22,7 +22,7 @@ return new class extends Migration
                 'male'
             ])->default('female');
             $table->enum('degree', [
-               null,
+               'none',
                'candidate',
                'doctor'
             ])->nullable(true);
