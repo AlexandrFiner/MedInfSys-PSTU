@@ -1,4 +1,4 @@
-<p align="center"><img src="/public/images/logo.svg" width="400px" alt="logo"></p>
+<p align="center"><img src="./public/images/logo.svg" width="400px" alt="logo"></p>
 
 ## Описание
 
@@ -19,6 +19,8 @@
 7. Сгенерируйте ключ приложения Laravel ``php artisan key:generate``
 8. Произведите миграцию в проекте ```php artisan migrate```
 9. При необходимости используйте фабрики, для заполнения базы ```php artisan db:seed```
+
+Сайт будет доступен по адресу ``localhost:8000``
 
 ## Постановка задачи
 
