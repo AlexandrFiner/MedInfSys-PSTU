@@ -46,13 +46,16 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
                 ->multiple()
                 ->setHtmlAttribute('style', 'width: 100%'),
 
+            AdminColumnFilter::text()
+                ->setPlaceholder('Стаж работы')
         ]);
+
         $display->getColumnFilters()->setPlacement('table.header');
         $display->setColumns([
             AdminColumn::text('id')->setLabel('#'),
             AdminColumn::text('name')->setLabel('ФИО'),
-            AdminColumn::custom('gender', function($patient) {
-                return match ($patient['gender']) {
+            AdminColumn::custom('gender', function($doctor) {
+                return match ($doctor['gender']) {
                     'male' => '<i class="fas fa-mars" style="color: #009ff1;font-size: 30px"></i>',
                     'female' => '<i class="fas fa-venus" style="color: #f284af;font-size: 30px"></i>',
                 };
@@ -60,6 +63,19 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
             AdminColumn::text('profile.name')->setLabel('Профиль'),
             AdminColumn::lists('polyclinics.name', 'Polyclinic')->setLabel('Поликлиники'),
             AdminColumn::lists('hospitals.name', 'Hospital')->setLabel('Больницы'),
+            AdminColumn::text('experience', null, 'date_started_working')
+                ->setLabel('Стаж в годах')
+                ->setFilterCallback(function($column, $query, $search) {
+                    if($search && is_numeric($search)) {
+                        return $query->where('date_started_working', '<', DB::raw('DATE_SUB(NOW(),INTERVAL '.$search.' YEAR)'));
+                    }
+                    return $query;
+                })
+                ->setOrderCallback(function($column, $query, $search){
+                    if($search)
+                        return $query->orderBy('date_started_working', $search);
+                    return $query;
+                })
         ]);
 
         $display->paginate(15);
