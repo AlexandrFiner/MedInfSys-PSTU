@@ -21,6 +21,10 @@ class Doctor extends Model
         return $this->belongsToMany(Polyclinic::class, 'doctor_polyclinics');
     }
 
+    public function operations() {
+        return $this->belongsToMany(Operation::class, 'operations');
+    }
+
     public function getExperienceAttribute() {
         return date_create()->diff(new \DateTime($this->date_started_working))->y;
     }
