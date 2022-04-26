@@ -28,6 +28,15 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
                 ->multiple()
                 ->setHtmlAttribute('style', 'width: 100%'),
 
+
+            AdminColumnFilter::select([
+                'none' => 'Нет звания',
+                'candidate' => 'Кандидат',
+                'doctor' => 'Доктор',
+            ], 'Звание')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),
+
             AdminColumnFilter::select()
                 ->setModelForOptions(ProfileDoctors::class, 'name')
                 ->setColumnName('profile.id')
@@ -60,6 +69,15 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
                     'female' => '<i class="fas fa-venus" style="color: #f284af;font-size: 30px"></i>',
                 };
             })->setLabel('Пол'),
+
+            AdminColumn::custom('degree', function($doctor) {
+                return match ($doctor['degree']) {
+                    'none' => 'Нет звания',
+                    'candidate' => 'Кандидат',
+                    'doctor' => 'Доктор',
+                };
+            })->setLabel('Звание'),
+
             AdminColumn::text('profile.name')->setLabel('Профиль'),
             AdminColumn::lists('polyclinics.name', 'Polyclinic')->setLabel('Поликлиники'),
             AdminColumn::lists('hospitals.name', 'Hospital')->setLabel('Больницы'),
@@ -114,7 +132,7 @@ AdminSection::registerModel(Doctor::class, function (ModelConfiguration $model) 
                 ->required(),
             AdminFormElement::date('date_started_working', 'Когда начал работать')->required(),
             AdminFormElement::select('degree', 'Звание', [
-                ' ' => 'Нет звания',
+                'none' => 'Нет звания',
                 'candidate' => 'Кандидат',
                 'doctor' => 'Доктор',
             ]),
