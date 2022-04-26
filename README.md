@@ -14,7 +14,7 @@
 2. Выполните сборку с помощью команды: ``docker-compose build ``
 3. После завершения сборки запустите среду в фоновом режиме с помощью следующей команды: ``docker-compose up -d``
 4. Проверьте работу активных служб `` docker-compose ps ``
-5. Зайдите в bash с помощью команды `` docker exec app bash ``
+5. Зайдите в bash с помощью команды `` docker-compose exec app bash ``
 6. Установите требуемые пакеты ```composer i```
 7. Сгенерируйте ключ приложения Laravel ``php artisan key:generate``
 8. Произведите миграцию в проекте ```php artisan migrate```
