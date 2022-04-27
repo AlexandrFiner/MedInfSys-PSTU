@@ -99,7 +99,6 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
                             $query->whereRaw("(SELECT COUNT(*) FROM operations as tt WHERE tt.`doctor_id` = `operations`.`doctor_id`) >= $search");
                         }
                     }
-                    // dd($query->toSql());
                     return $query;
                 }),
 
