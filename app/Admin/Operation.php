@@ -15,6 +15,18 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
     $model->onDisplay(function () {
         $display = AdminDisplay::datatablesAsync();
 
+        $hospitalsList = Hospital::all();
+        $hospitals = [];
+        foreach ($hospitalsList as $hospital) {
+            $hospitals[Hospital::class.'_'.$hospital->id] = $hospital->name;
+        }
+
+        $polyclinicsList = Polyclinic::all();
+        $polyclinics = [];
+        foreach ($polyclinicsList as $polyclinic) {
+            $polyclinics[Polyclinic::class.'_'.$polyclinic->id] = $polyclinic->name;
+        }
+
         $display->setColumnFilters([
             null,
 
@@ -33,6 +45,13 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
                 ->setOperator(FilterInterface::CONTAINS)
                 ->setHtmlAttribute('style', 'width: 100%'),
 
+            AdminColumnFilter::select()
+                ->setOptions([
+                    'Больница' => $hospitals,
+                    'Поликлиника' => $polyclinics
+                ])
+                ->setSortable(false)
+                ->multiple(),
         ]);
 
         $display->getColumnFilters()->setPlacement('table.header');
@@ -41,6 +60,27 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
             AdminColumn::text('purpose')->setLabel('Операция'),
             AdminColumn::text('patient.name')->setLabel('Пациент'),
             AdminColumn::text('doctor.name')->setLabel('Доктор'),
+            AdminColumn::text('organization.name', null, 'organizationIs')
+                ->setLabel('Организация')
+                ->setFilterCallback(function($column, $query, $search) {
+                    if($search) {
+                        if(is_array($search)) {
+                            foreach ($search as $searchItem) {
+                                $searchItem = explode('_', $searchItem);
+                                $query->orWhere(function ($query) use($searchItem) {
+                                    $query->where('organization_type', $searchItem[0])->where('organization_id', $searchItem[1]);
+                                });
+                            }
+                            return $query;
+                        }
+
+                        $search = explode('_', $search);
+                        $query->where('organization_type', $search[0])->where('organization_id', $search[1]);
+                        return $query;
+                        // dd($column, $query->toSql(), $search);
+                    }
+                    return $query;
+                }),
         ]);
 
         $display->paginate(15);

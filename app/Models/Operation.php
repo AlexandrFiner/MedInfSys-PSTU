@@ -17,7 +17,15 @@ class Operation extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function operatable() {
+    public function getOrganizationAttribute() {
+        return app($this->organization_type)::find($this->organization_id);
+    }
+
+    public function getOrganizationIsAttribute() {
+        return $this->organization_type == Hospital::class ? 'Больница' : 'Поликлиника';
+    }
+
+    public function operable() {
         return $this->morphTo();
     }
 }
