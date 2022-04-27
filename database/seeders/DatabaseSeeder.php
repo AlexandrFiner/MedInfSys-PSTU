@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Doctor;
 use App\Models\Hospital;
+use App\Models\Operation;
 use App\Models\Patient;
 use App\Models\Polyclinic;
 use App\Models\Worker;
@@ -189,5 +190,8 @@ class DatabaseSeeder extends Seeder
                     break;
             }
         });
+
+        // Операции
+        Operation::factory(50)->create();
     }
 }

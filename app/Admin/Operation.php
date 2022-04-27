@@ -36,9 +36,16 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
                 ->setOperator(FilterInterface::CONTAINS)
                 ->setHtmlAttribute('style', 'width: 100%'),
 
-            AdminColumnFilter::text()
-                ->setPlaceholder('ФИО')
-                ->setOperator(FilterInterface::CONTAINS)
+
+            AdminColumnFilter::range()->setFrom(
+                AdminColumnFilter::date()
+                    ->setPlaceholder('От')
+                    ->setFormat('Y-m-d')
+            )->setTo(
+                AdminColumnFilter::date()
+                    ->setPlaceholder('До')
+                    ->setFormat('Y-m-d')
+            )
                 ->setHtmlAttribute('style', 'width: 100%'),
 
             AdminColumnFilter::text()
@@ -47,7 +54,13 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
                 ->setHtmlAttribute('style', 'width: 100%'),
 
             AdminColumnFilter::text()
-                ->setPlaceholder('Количество'),
+                ->setPlaceholder('ФИО')
+                ->setOperator(FilterInterface::CONTAINS)
+                ->setHtmlAttribute('style', 'width: 100%'),
+
+            AdminColumnFilter::text()
+                ->setPlaceholder('Количество')
+                ->setHtmlAttribute('style', 'width: 100%'),
 
             AdminColumnFilter::select()
                 ->setPlaceholder('Не указано')
@@ -70,6 +83,7 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
         $display->setColumns([
             AdminColumn::text('id')->setLabel('#'),
             AdminColumn::text('purpose')->setLabel('Операция'),
+            AdminColumn::datetime('date')->setFormat('Y-m-d')->setLabel('Дата операции'),
             AdminColumn::text('patient.name')
                 ->setLabel('Пациент')
                 ->setFilterCallback(function ($column, $query, $search) {
@@ -91,7 +105,7 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
                     return $query;
                 }),
             AdminColumn::text('doctor.operationsCount')
-                ->setLabel('Проведено операций')
+                ->setLabel('Операций')
                 ->setOrderable(false)
                 ->setFilterCallback(function ($column, $query, $search) {
                     if($search) {
@@ -135,10 +149,10 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
                         $search = explode('_', $search);
                         $query->where('organization_type', $search[0])->where('organization_id', $search[1]);
                         return $query;
-                        // dd($column, $query->toSql(), $search);
                     }
                     return $query;
                 }),
+
         ]);
 
         $display->paginate(15);
@@ -170,6 +184,7 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
 
             AdminFormElement::select('patient_id', 'Пациент', Patient::class)->setDisplay('name')->required(),
             AdminFormElement::select('doctor_id', 'Доктор', Doctor::class)->setDisplay('name')->required(),
+            AdminFormElement::date('date', 'Дата операции')->required(),
 
         ]);
         return $form;

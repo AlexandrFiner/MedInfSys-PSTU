@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Doctor::class);
             $table->foreignIdFor(Patient::class);
             $table->morphs('organization');
+            $table->date('date');
             $table->timestamps();
         });
     }
