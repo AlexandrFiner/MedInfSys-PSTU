@@ -46,13 +46,18 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
                 ->setOperator(FilterInterface::CONTAINS)
                 ->setHtmlAttribute('style', 'width: 100%'),
 
+            AdminColumnFilter::text()
+                ->setPlaceholder('Количество'),
+
             AdminColumnFilter::select()
+                ->setPlaceholder('Не указано')
                 ->setModelForOptions(ProfileDoctors::class, 'name')
                 ->setColumnName('profile.id')
                 ->multiple()
                 ->setHtmlAttribute('style', 'width: 100%'),
 
             AdminColumnFilter::select()
+                ->setPlaceholder('Не указано')
                 ->setOptions([
                     'Больница' => $hospitals,
                     'Поликлиника' => $polyclinics
@@ -75,7 +80,7 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
                     }
                     return $query;
                 }),
-            AdminColumn::text('doctor.name')
+            AdminColumn::text('doctor.name', null)
                 ->setLabel('Доктор')
                 ->setFilterCallback(function ($column, $query, $search) {
                     if($search) {
@@ -85,6 +90,19 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
                     }
                     return $query;
                 }),
+            AdminColumn::text('doctor.operationsCount')
+                ->setLabel('Проведено операций')
+                ->setOrderable(false)
+                ->setFilterCallback(function ($column, $query, $search) {
+                    if($search) {
+                        if(is_numeric($search)) {
+                            $query->whereRaw("(SELECT COUNT(*) FROM operations as tt WHERE tt.`doctor_id` = `operations`.`doctor_id`) >= $search");
+                        }
+                    }
+                    // dd($query->toSql());
+                    return $query;
+                }),
+
             AdminColumn::text('doctor.profile.name')
                 ->setLabel('Профиль')
                 ->setOrderable(false)

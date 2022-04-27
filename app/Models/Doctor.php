@@ -9,6 +9,11 @@ class Doctor extends Model
 {
     use HasFactory;
 
+    protected $appends = [
+        'experience',
+        'operationsCount'
+    ];
+
     public function profile() {
         return $this->belongsTo(ProfileDoctors::class, 'profile_doctors_id', 'id');
     }
@@ -27,5 +32,10 @@ class Doctor extends Model
 
     public function getExperienceAttribute() {
         return date_create()->diff(new \DateTime($this->date_started_working))->y;
+    }
+
+    public function getOperationsCountAttribute() {
+        /* костыль */
+        return Operation::query()->where('doctor_id', '=', $this->id)->count('*');
     }
 }
