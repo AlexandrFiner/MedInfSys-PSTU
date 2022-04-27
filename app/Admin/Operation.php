@@ -5,6 +5,7 @@ use App\Models\Hospital;
 use App\Models\Operation;
 use App\Models\Patient;
 use App\Models\Polyclinic;
+use App\Models\ProfileDoctors;
 use Illuminate\Support\Facades\DB;
 use SleepingOwl\Admin\Contracts\Display\Extension\FilterInterface;
 use SleepingOwl\Admin\Model\ModelConfiguration;
@@ -46,6 +47,12 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
                 ->setHtmlAttribute('style', 'width: 100%'),
 
             AdminColumnFilter::select()
+                ->setModelForOptions(ProfileDoctors::class, 'name')
+                ->setColumnName('profile.id')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),
+
+            AdminColumnFilter::select()
                 ->setOptions([
                     'Больница' => $hospitals,
                     'Поликлиника' => $polyclinics
@@ -58,10 +65,44 @@ AdminSection::registerModel(Operation::class, function (ModelConfiguration $mode
         $display->setColumns([
             AdminColumn::text('id')->setLabel('#'),
             AdminColumn::text('purpose')->setLabel('Операция'),
-            AdminColumn::text('patient.name')->setLabel('Пациент'),
-            AdminColumn::text('doctor.name')->setLabel('Доктор'),
+            AdminColumn::text('patient.name')
+                ->setLabel('Пациент')
+                ->setFilterCallback(function ($column, $query, $search) {
+                    if($search) {
+                        $query->join('patients', 'patients.id', '=', 'operations.patient_id')
+                            ->select('operations.*', 'patients.name')
+                            ->where('patients.name', 'LIKE', "%$search%");
+                    }
+                    return $query;
+                }),
+            AdminColumn::text('doctor.name')
+                ->setLabel('Доктор')
+                ->setFilterCallback(function ($column, $query, $search) {
+                    if($search) {
+                        $query->join('doctors', 'doctors.id', '=', 'operations.doctor_id')
+                            ->select('operations.*', 'doctors.name')
+                            ->where('doctors.name', 'LIKE', "%$search%");
+                    }
+                    return $query;
+                }),
+            AdminColumn::text('doctor.profile.name')
+                ->setLabel('Профиль')
+                ->setOrderable(false)
+                ->setFilterCallback(function ($column, $query, $search) {
+                    if($search) {
+                        $query->join('doctors as doctors_two', 'doctors_two.id', '=', 'operations.doctor_id')->select('operations.*', 'doctors_two.profile_doctors_id');
+                        if(is_array($search)) {
+                            $query->whereIn('doctors_two.profile_doctors_id', $search);
+                            return $query;
+                        }
+
+                        $query->where('doctors_two.profile_doctors_id', $search);
+                    }
+                    return $query;
+                }),
             AdminColumn::text('organization.name', null, 'organizationIs')
                 ->setLabel('Организация')
+                ->setOrderable(false)
                 ->setFilterCallback(function($column, $query, $search) {
                     if($search) {
                         if(is_array($search)) {

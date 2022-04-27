@@ -9,20 +9,20 @@ class Operation extends Model
 {
     use HasFactory;
 
-    public function patient() {
-        return $this->belongsTo(Patient::class);
-    }
-
-    public function doctor() {
-        return $this->belongsTo(Doctor::class);
-    }
-
     public function getOrganizationAttribute() {
         return app($this->organization_type)::find($this->organization_id);
     }
 
     public function getOrganizationIsAttribute() {
         return $this->organization_type == Hospital::class ? 'Больница' : 'Поликлиника';
+    }
+
+    public function patient() {
+        return $this->belongsTo(Patient::class);
+    }
+
+    public function doctor() {
+        return $this->belongsTo(Doctor::class);
     }
 
     public function operable() {
