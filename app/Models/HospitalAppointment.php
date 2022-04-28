@@ -24,4 +24,8 @@ class HospitalAppointment extends Model
     public function department() {
         return $this->belongsTo(Department::class, 'department_id', 'id');
     }
+
+    public function department_room() {
+        return $this->belongsTo(DepartmentRoom::class, 'department_room_id', 'id');
+    }
 }

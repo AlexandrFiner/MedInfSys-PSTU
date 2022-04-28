@@ -14,16 +14,37 @@ class Department extends Model
     }
 
     /*
+     * Палаты
+     */
+    public function rooms() {
+        return $this->hasMany(DepartmentRoom::class);
+    }
+
+    /*
+     * Количество палат
+     */
+    public function getRoomsCountAttribute() {
+        return $this->rooms()->count();
+    }
+
+    /*
+     * Общее количество коек
+     */
+    public function getBedsCountAttribute() {
+        return $this->rooms()->sum('beds');
+    }
+
+    /*
      * Занятые койки
      */
-    public function getOccupiedRoomsAttribute() {
+    public function getOccupiedBedsAttribute() {
         return HospitalAppointment::where('department_id', $this->id)->where('status', 'process')->count();
     }
 
     /*
      * Свободные койки
      */
-    public function getFreeRoomsAttribute() {
-        return $this->rooms * $this->beds - $this->occupied_rooms;
+    public function getFreeBedsAttribute() {
+        return $this->getBedsCountAttribute() - $this->getOccupiedBedsAttribute();
     }
 }

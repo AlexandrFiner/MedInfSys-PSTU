@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Hospital;
+use App\Models\Department;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,10 +14,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('department_rooms', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Hospital::class);
-            $table->text('name');
+            $table->string('name');
+            $table->integer('beds');
+            $table->foreignIdFor(Department::class);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('department_rooms');
     }
 };

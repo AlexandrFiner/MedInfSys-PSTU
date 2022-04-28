@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Department;
+use App\Models\DepartmentRoom;
 use App\Models\Patient;
 use App\Models\Hospital;
 use App\Models\Doctor;
@@ -22,12 +23,15 @@ return new class extends Migration
             $table->foreignIdFor(Patient::class);
             $table->foreignIdFor(Hospital::class);
             $table->foreignIdFor(Department::class);
+            $table->foreignIdFor(DepartmentRoom::class);
             $table->foreignIdFor(Doctor::class);
             $table->text('description')->nullable(true);
             $table->enum('status', [
                 'process',
                 'released'
             ])->default('process');
+            $table->date('date_in');
+            $table->date('date_out')->nullable(true);
             $table->timestamps();
         });
     }

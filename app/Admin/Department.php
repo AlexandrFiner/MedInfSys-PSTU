@@ -1,5 +1,7 @@
 <?php
 
+/*Todo: do order*/
+
 use App\Models\Department;
 use App\Models\Hospital;
 use SleepingOwl\Admin\Contracts\Display\Extension\FilterInterface;
@@ -31,10 +33,10 @@ AdminSection::registerModel(Department::class, function (ModelConfiguration $mod
             AdminColumn::text('id')->setLabel('#'),
             AdminColumn::text('name')->setLabel('Название'),
             AdminColumn::text('hospital.name')->setLabel('Больница'),
-            AdminColumn::text('rooms')->setLabel('Количество палат'),
-            AdminColumn::text('beds')->setLabel('Коек в палате'),
-            AdminColumn::text('occupied_rooms')->setLabel('Занято коек'),
-            AdminColumn::text('free_rooms')->setLabel('Свободно коек'),
+            AdminColumn::text('rooms_count')->setLabel('Количество палат'),
+            AdminColumn::text('beds_count')->setLabel('Коек в корпусе'),
+            AdminColumn::text('occupied_beds')->setLabel('Занято коек'),
+            AdminColumn::text('free_beds')->setLabel('Свободно коек'),
         ]);
 
         $display->paginate(15);
@@ -47,8 +49,6 @@ AdminSection::registerModel(Department::class, function (ModelConfiguration $mod
         $form->addBody([
             AdminFormElement::text('name', 'Название корпуса')->required(),
             AdminFormElement::select('hospital_id', 'Больница', Hospital::class)->setDisplay('name')->required(),
-            AdminFormElement::number('rooms', 'Количество палат')->setMin(0)->required(),
-            AdminFormElement::number('beds', 'Количество коек')->setMin(0)->required(),
         ]);
         return $form;
     });

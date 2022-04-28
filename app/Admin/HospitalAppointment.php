@@ -1,11 +1,13 @@
 <?php
 
 use App\Models\Department;
+use App\Models\DepartmentRoom;
 use App\Models\HospitalAppointment;
 use App\Models\Hospital;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\Polyclinic;
+use App\Models\ProfileDoctors;
 use SleepingOwl\Admin\Model\ModelConfiguration;
 
 AdminSection::registerModel(HospitalAppointment::class, function (ModelConfiguration $model) {
@@ -14,19 +16,85 @@ AdminSection::registerModel(HospitalAppointment::class, function (ModelConfigura
     $model->onDisplay(function () {
         $display = AdminDisplay::datatablesAsync();
         $display->setNewEntryButtonText('Запись пациента');
+
+        $display->setColumnFilters([
+            null,
+
+            AdminColumnFilter::select()
+                ->setModelForOptions(Patient::class, 'name')
+                ->setColumnName('patient_id')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),
+            AdminColumnFilter::select([
+                'process' => 'Проходит лечение',
+                'released' => 'Выписан',
+            ], 'Пол')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),
+            AdminColumnFilter::select()
+                ->setModelForOptions(Doctor::class, 'name')
+                ->setColumnName('doctor_id')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),
+            AdminColumnFilter::select()
+                ->setModelForOptions(ProfileDoctors::class, 'name')
+                ->setColumnName('doctor.profile_doctors_id')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),
+            AdminColumnFilter::select()
+                ->setModelForOptions(Hospital::class, 'name')
+                ->setColumnName('hospital.id')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),
+            null,
+
+            null,
+            /*AdminColumnFilter::select()
+                ->setModelForOptions(DepartmentRoom::class, 'name')
+                ->setColumnName('profile.id')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),*/
+
+            AdminColumnFilter::range()->setFrom(
+                AdminColumnFilter::date()
+                    ->setPlaceholder('От')
+                    ->setFormat('Y-m-d')
+            )->setTo(
+                AdminColumnFilter::date()
+                    ->setPlaceholder('До')
+                    ->setFormat('Y-m-d')
+            )
+                ->setHtmlAttribute('style', 'width: 100%'),
+
+            AdminColumnFilter::range()->setFrom(
+                AdminColumnFilter::date()
+                    ->setPlaceholder('От')
+                    ->setFormat('Y-m-d')
+            )->setTo(
+                AdminColumnFilter::date()
+                    ->setPlaceholder('До')
+                    ->setFormat('Y-m-d')
+            )
+                ->setHtmlAttribute('style', 'width: 100%'),
+        ]);
+
+        $display->getColumnFilters()->setPlacement('table.header');
         $display->setColumns([
             AdminColumn::text('id')->setLabel('#'),
-            AdminColumn::text('patient.name')->setLabel('Пациент'),
+            AdminColumn::text('patient.name', null, 'description')->setLabel('Пациент'),
             AdminColumn::custom('status', function($appointment) {
                 return match ($appointment['status']) {
                     'process' => '<small class="badge badge-warning">Проходит лечение</small>',
                     'released' => '<small class="badge badge-success">Выписан</small>',
                 };
             })->setLabel('Статус'),
-            AdminColumn::text('description')->setLabel('Описание'),
             AdminColumn::text('doctor.name')->setLabel('Лечащий врач'),
+            AdminColumn::text('doctor.profile.name')->setLabel('Профиль врача'),
             AdminColumn::text('hospital.name')->setLabel('Больница'),
             AdminColumn::text('department.name')->setLabel('Отделение'),
+            AdminColumn::text('department_room.name')->setLabel('Палата'),
+            AdminColumn::datetime('date_in')->setFormat('Y-m-d')->setLabel('Дата поступления'),
+            AdminColumn::datetime('date_out')->setFormat('Y-m-d')->setLabel('Дата выписки'),
         ]);
 
         $display->paginate(15);

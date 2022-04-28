@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Department;
 use App\Models\Doctor;
 use App\Models\Hospital;
+use App\Models\HospitalAppointment;
 use App\Models\Operation;
 use App\Models\Patient;
 use App\Models\Polyclinic;
@@ -100,10 +102,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Отделения
-        DB::table('departments')->insert([
-            ['hospital_id' => 1, 'name' => 'Главный корпус', 'beds' => 10, 'rooms' => 2 ],
-            ['hospital_id' => 2, 'name' => 'Главный корпус', 'beds' => 10, 'rooms' => 2 ],
-        ]);
+        Department::factory(50)->create();
 
         // Поликлиники
         DB::table('polyclinics')->insert([
@@ -193,5 +192,19 @@ class DatabaseSeeder extends Seeder
 
         // Операции
         Operation::factory(50)->create();
+
+        // Добавляем палаты
+        Department::all()->each(function ($department) {
+            $cntRooms = rand(1,5);
+            for($i = 1; $i < $cntRooms; $i++)
+                DB::table('department_rooms')->insert([
+                    'name' => 'каб. №'.$i,
+                    'beds' => rand(2,10),
+                    'department_id' => $department->id
+                ]);
+        });
+
+        // Добавление пацентов в больницу
+        HospitalAppointment::factory(50)->create();
     }
 }
