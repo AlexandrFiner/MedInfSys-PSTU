@@ -30,6 +30,11 @@ return new class extends Migration
                 'process',
                 'released'
             ])->default('process');
+            $table->enum('condition', [
+                'satisfactory',
+                'critical',
+            ]);
+            $table->float('temperature');
             $table->date('date_in');
             $table->date('date_out')->nullable(true);
             $table->timestamps();

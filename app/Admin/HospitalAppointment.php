@@ -8,6 +8,7 @@ use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\Polyclinic;
 use App\Models\ProfileDoctors;
+use SleepingOwl\Admin\Contracts\Display\Extension\FilterInterface;
 use SleepingOwl\Admin\Model\ModelConfiguration;
 
 AdminSection::registerModel(HospitalAppointment::class, function (ModelConfiguration $model) {
@@ -31,6 +32,15 @@ AdminSection::registerModel(HospitalAppointment::class, function (ModelConfigura
             ], 'Пол')
                 ->multiple()
                 ->setHtmlAttribute('style', 'width: 100%'),
+            AdminColumnFilter::select([
+                'satisfactory' => 'Удовлетворительное',
+                'critical' => 'Тяжелое',
+            ], 'Пол')
+                ->multiple()
+                ->setHtmlAttribute('style', 'width: 100%'),
+
+            null,
+
             AdminColumnFilter::select()
                 ->setModelForOptions(Doctor::class, 'name')
                 ->setColumnName('doctor_id')
@@ -88,6 +98,13 @@ AdminSection::registerModel(HospitalAppointment::class, function (ModelConfigura
                     'released' => '<small class="badge badge-success">Выписан</small>',
                 };
             })->setLabel('Статус'),
+            AdminColumn::custom('condition', function($appointment) {
+                return match ($appointment['condition']) {
+                    'satisfactory' => '<small class="badge badge-success">Удовлетворительное</small>',
+                    'critical' => '<small class="badge badge-warning">Тяжелое</small>',
+                };
+            })->setLabel('Состояние'),
+            AdminColumn::text('temperature')->setLabel('Температура'),
             AdminColumn::text('doctor.name')->setLabel('Лечащий врач'),
             AdminColumn::text('doctor.profile.name')->setLabel('Профиль врача'),
             AdminColumn::text('hospital.name')->setLabel('Больница'),
@@ -101,7 +118,7 @@ AdminSection::registerModel(HospitalAppointment::class, function (ModelConfigura
         return $display;
     });
 
-    $model->onCreate(function () {
+    $model->onCreateAndEdit(function () {
         $form = AdminForm::panel();
 
         $form->addBody([
@@ -153,7 +170,34 @@ AdminSection::registerModel(HospitalAppointment::class, function (ModelConfigura
                 })
                 ->required(),
 
+            AdminFormElement::dependentselect('department_room_id', 'Палата', ['department_id'])
+                ->setModelForOptions( DepartmentRoom::class, 'name' )
+                ->setDisplay('name')
+                ->setHtmlAttribute('placeholder', 'Укажите больницу')
+                ->setDataDepends(['department_id'])
+                ->setLoadOptionsQueryPreparer(function($element, $query) {
+                    return $query->where('department_id', $element->getDependValue('department_id'));
+                })
+                ->required(),
+
             AdminFormElement::text('description', 'Описание'),
+            AdminFormElement::text('temperature', 'Температура')
+                ->required(),
+            AdminFormElement::select('condition', 'Состояние пациента')
+                ->setOptions([
+                    'satisfactory' => 'Удовлетворительное',
+                    'critical' => 'Тяжелое',
+                ])
+                ->required(),
+            AdminFormElement::select('status', 'Текущий статус')
+                ->setOptions([
+                    'process' => 'Проходит лечение',
+                    'released' => 'Выписан',
+                ])
+                ->required(),
+
+            AdminFormElement::date('date_in', 'Дата поступления')->required(),
+            AdminFormElement::date('date_out', 'Дата выписки'),
         ]);
         return $form;
     });

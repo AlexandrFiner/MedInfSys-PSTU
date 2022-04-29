@@ -42,6 +42,8 @@ class HospitalAppointmentFactory extends Factory
             'doctor_id' => $doctor_id,
             'description' => $this->faker->randomElement(['Экстренная госпитализация', 'Ранение ноги', 'Открытое кровотечение', 'Перелом', 'Обострения хронических болезней', 'Плановая госпитализация']),
             'status' => $status,
+            'condition' => $this->faker->randomElement(['satisfactory', 'critical']),
+            'temperature' => $this->faker->randomFloat(1, 36.4, 38),
             'date_in' => $this->faker->date(),
             'date_out' => $status == 'released' ? $this->faker->date() : null,
         ];
