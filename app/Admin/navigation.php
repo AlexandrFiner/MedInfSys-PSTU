@@ -3,6 +3,7 @@
 use App\Models\Doctor;
 use App\Models\HospitalAppointment;
 use App\Models\PolyclinicAppointment;
+use App\Models\PolyclinicObserv;
 use App\Models\ProfileDoctors;
 use App\Models\ProfileLaboratories;
 use App\Models\ProfileWorkers;
@@ -18,6 +19,8 @@ return [
             (new Page(HospitalAppointment::class))
                 ->setIcon('fa fa-user'),
             (new Page(PolyclinicAppointment::class))
+                ->setIcon('fa fa-user'),
+            (new Page(PolyclinicObserv::class))
                 ->setIcon('fa fa-user'),
         ]
     ],
