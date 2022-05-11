@@ -36,7 +36,7 @@
 
 ## Запросы в информационной системе
 
-![71%](https://progress-bar.dev/64?width=500&title=Готово)
+![71%](https://progress-bar.dev/71?width=500&title=Готово)
 
 <!-- 10/14 -->
 <!-- 78, 85, 92 -->
