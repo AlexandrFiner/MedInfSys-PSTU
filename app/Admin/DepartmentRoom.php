@@ -46,6 +46,8 @@ AdminSection::registerModel(DepartmentRoom::class, function (ModelConfiguration 
             AdminColumn::text('department.name')->setLabel('Корпус'),
             AdminColumn::text('department.hospital.name')->setLabel('Больница'),
             AdminColumn::text('beds')->setLabel('Коек в палате'),
+            AdminColumn::text('occupied_beds')->setLabel('Коек занято'),
+            AdminColumn::text('is_free_room')->setLabel('Комната свободна'),
         ]);
 
         $display->paginate(15);

@@ -47,4 +47,16 @@ class Department extends Model
     public function getFreeBedsAttribute() {
         return $this->getBedsCountAttribute() - $this->getOccupiedBedsAttribute();
     }
+
+    /*
+     * Свободные комнаты
+     */
+    public function getFreeRoomsAttribute() {
+        $collection = DepartmentRoom::where('department_id', $this->id)->get();
+        $filtered = $collection->filter(function ($model) {
+            return $model->isFreeRoom() == true;
+        });
+
+        return $filtered->count();
+    }
 }

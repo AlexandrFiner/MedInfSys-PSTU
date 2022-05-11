@@ -37,6 +37,7 @@ AdminSection::registerModel(Department::class, function (ModelConfiguration $mod
             AdminColumn::text('beds_count')->setLabel('Коек в корпусе'),
             AdminColumn::text('occupied_beds')->setLabel('Занято коек'),
             AdminColumn::text('free_beds')->setLabel('Свободно коек'),
+            AdminColumn::text('free_rooms')->setLabel('Свободно палат'),
         ]);
 
         $display->paginate(15);

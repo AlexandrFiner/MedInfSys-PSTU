@@ -20,4 +20,6 @@ class Hospital extends Model
     {
         return $this->morphMany('App\Operation', 'operable');
     }
+
+    // TODO: Получите общее число палат и коек указанной больницы
 }
