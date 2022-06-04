@@ -9,6 +9,8 @@
 - SleepingOwl Admin
 - MySQL
 
+Live demo: http://u5238.dark.elastictech.org
+
 ## Установка
 1. Скопируйте настройки окружения ``cp .env.example .env``
 2. Выполните сборку с помощью команды: ``docker-compose build ``
